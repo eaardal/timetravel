@@ -1,0 +1,89 @@
+@import 'bourbon', 'neat', '~spv-styleguide/app/assets/stylesheets/settings/settings';
+$heading-font-weight: 500;
+
+body {
+  background-color: $wild-sand-2
+}
+
+.l-transfer {
+  @include outer-container;
+  background-color: $wild-sand-2;
+  padding: 0 0 65px 0;
+  margin-top: 20px;
+  @media(min-width: $first-breakpoint-value) {
+    padding: 0 3%;
+  }
+  @media(min-width: $second-breakpoint-value) {
+    padding: 0 5%;
+  }
+
+  @media (min-width: $first-breakpoint-value) {
+    padding-bottom: 0;
+  }
+
+  &__heading,
+  &__info-heading {
+    font-weight: $heading-font-weight;
+    color: $silver-chalice;
+  }
+
+  &__heading {
+    @include span-columns(12);
+    @include omega;
+    display: none;
+
+    @media(min-width: $first-breakpoint-value) {
+      display: block;
+    }
+  }
+
+  &__form {
+    padding: 0 15px;
+    @media(min-width: $first-breakpoint-value) {
+      padding: 0;
+    }
+  }
+
+  &__form, &__alert {
+    margin-bottom: 50px;
+
+    @media(min-width: $first-breakpoint-value) {
+      @include span-columns(8);
+    }
+    @media(min-width: $second-breakpoint-value) {
+      padding-right: 20px;
+    }
+  }
+
+  &__aside {
+    @include span-columns(12);
+    padding: 0 15px;
+
+    @media(min-width: $first-breakpoint-value) {
+      padding-left: 3%;
+      @include span-columns(4);
+    }
+  }
+
+  &__form + &__aside {
+    @media(min-width: $first-breakpoint-value) {
+      margin-top: 20px;
+    }
+  }
+
+  &__info-card {
+    background-color: $gallery;
+    padding: 20px;
+    margin-bottom: 20px;
+  }
+
+  &__info-heading {
+    margin-top: 0;
+  }
+
+  .account-picker-info {
+    margin-top: 8px;
+    line-height: 1.2;
+    font-size: em(14px);
+  }
+}

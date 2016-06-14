@@ -1,0 +1,25 @@
+defaults: &DEFAULTS
+  applicationIndex: http://localhost:8008/dbank/innlogget/betaling
+  apiEndpoints:
+    createtransfer: http://localhost:8008/dbank/api/betaling/transfer/create
+    transferfrom: http://localhost:8008/dbank/api/betaling/accounts/transferfrom
+    transferto: http://localhost:8008/dbank/api/betaling/accounts/transferto
+    logout: http://localhost:8008/dbank/utlogging
+localhost:
+  <<: *DEFAULTS
+utvikling:
+  <<: *DEFAULTS
+  applicationIndex: https://u-www2.spv.no/dbank/innlogget/betaling
+  apiEndpoints:
+    createtransfer: https://u-www2.spv.no/dbank/api/betaling/transfer/create
+    transferfrom: https://u-www2.spv.no/dbank/api/betaling/accounts/transferfrom
+    transferto: https://u-www2.spv.no/dbank/api/betaling/accounts/transferto
+    logout: https://u-www2.spv.no/dbank/utlogging
+systemtest:
+  <<: *DEFAULTS
+  applicationIndex: https://s-www2.spv.no/dbank/innlogget/betaling
+  apiEndpoints:
+    createtransfer: https://s-www2.spv.no/dbank/api/betaling/transfer/create
+    transferfrom: https://s-www2.spv.no/dbank/api/betaling/accounts/transferfrom
+    transferto: https://s-www2.spv.no/dbank/api/betaling/accounts/transferto
+    logout: https://s-www2.spv.no/dbank/utlogging

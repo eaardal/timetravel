@@ -1,0 +1,1 @@
+export const ONCLICK_OUTSIDE = 'ONCLICK_OUTSIDE';
