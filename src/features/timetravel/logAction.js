@@ -1,23 +1,28 @@
 import fetch from '../../utils/http.util';
-import LoginStore from './loginStore';
+
+const sessionId = 1234;
+
+let sessions = {};
 
 const LogAction = {
   log: (action) => {
-    console.log('Action:', action);
+    console.log('Log action:', action);
 
-    if (LoginStore.sessionId && !action.debug) {
-      const options = {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: {},
-      };
-      const url = '';
-      console.log('FETCH TIL: ' + url, options);
+    if (sessionId && !action.isDebug) {
+      if (!sessions[sessionId]) {
+        sessions[sessionId] = [];
+      }
+      sessions[sessionId].push(action);
     }
-  }
+  },
+
+  get: (sessionId) => {
+    const actions = sessions[sessionId];
+    console.log('Returning actions for session ' + sessionId, actions);
+    return actions;
+  },
+
+  getAll: () => sessions,
 };
 
 export default LogAction;

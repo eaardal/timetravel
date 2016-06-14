@@ -1,33 +1,32 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TimetravelButton from './TimetravelButton';
-import { addToCart, checkout } from './timetravel.actions';
+import { loadDebugSessions } from './timetravel.actions';
 import guid from '../../utils/guid.util';
-import dispatch from './timetravelDispatcher';
+import timetravelDispatcher from './timetravelDispatcher';
 
-const TimetravelContainer = ({ sessions }) => (
+const TimetravelContainer = ({ debugSessions, onLoadDebugSessions }) => (
   <div>
     <h1>Timetravel</h1>
-    {sessions.map(session =>
-      (<TimetravelButton
-        onClick={}
-        text={`Debug session ${session.id}`}
-      />)
+    <button onClick={onLoadDebugSessions}>Load sessions</button>
+    {debugSessions.map(session =>
+      session.actions.map(action =>
+        (<h3>action.type</h3>)
+      )
     )}
-
   </div>
 );
 
 TimetravelContainer.propTypes = {
-
+  debugSessions: PropTypes.array.isRequired,
 };
 
 const mapStateToProps = (state) => ({
-
+  debugSessions: state.timetravel.debugSessions,
 });
 
-const mapDispatchToProps = () => ({
-
+const mapDispatchToProps = (dispatch) => ({
+  onLoadDebugSessions: () => dispatch(loadDebugSessions()),
 });
 
 export default connect(

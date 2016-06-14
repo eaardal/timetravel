@@ -4,6 +4,7 @@ import DummyButton from './DummyButton';
 import { addToCart, checkout } from './timetravel.actions';
 import guid from '../../utils/guid.util';
 import timetravelDispatcher from './timetravelDispatcher';
+import TimetravelContainer from './TimetravelContainer';
 
 const addRandomItemToCart = (onAddToCart) => {
   const items = [
@@ -21,6 +22,7 @@ const addRandomItemToCart = (onAddToCart) => {
 const DummyApplicationContainer = ({ onAddToCart, onCheckout, cartItems }) => (
   <div>
     <h1>Ukomplett.no</h1>
+      <TimetravelContainer />
       <DummyButton
         text="Add to cart"
         onClick={() => addRandomItemToCart(onAddToCart)}
@@ -33,7 +35,7 @@ const DummyApplicationContainer = ({ onAddToCart, onCheckout, cartItems }) => (
       {cartItems.map(item =>
         (<li key={item.id}>{item.name}</li>)
       )}
-    </ul>    
+    </ul>
   </div>
 );
 
