@@ -2,7 +2,6 @@ import { createStore, applyMiddleware, compose } from 'redux';
 import thunkMiddleware from 'redux-thunk';
 import rootReducer from 'app/rootReducer';
 
-
 let reduxDevTools = f => f;
 if (process.env.ENVIRONMENT === 'localhost' && window.devToolsExtension) {
   reduxDevTools = window.devToolsExtension();
