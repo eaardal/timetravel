@@ -1,11 +1,11 @@
 import React from 'react';
 import { Route, IndexRoute } from 'react-router';
 import App from './AppContainer';
-import DummyApplicationContainer from 'features/timetravel/DummyApplicationContainer';
+import ApplicationContainer from 'features/timetravel/ApplicationContainer';
 
 const routes = (
     <Route path="/" component={App}>
-      <IndexRoute component={DummyApplicationContainer} />
+      <IndexRoute component={ApplicationContainer} />
     </Route>
 );
 

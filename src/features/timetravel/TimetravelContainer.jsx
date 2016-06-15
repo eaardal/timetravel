@@ -5,6 +5,9 @@ import { loadDebugSessions, debugSession } from './timetravel.actions';
 import guid from '../../utils/guid.util';
 import timetravelDispatcher from './timetravelDispatcher';
 import forOwn from 'lodash/forOwn';
+import {
+  Navbar, Nav, NavItem, Col, Row, Button, ListGroup, ListGroupItem, Panel, Accordion
+} from 'react-bootstrap';
 
 const TimetravelContainer = ({
   debugSessions,
@@ -13,17 +16,22 @@ const TimetravelContainer = ({
 }) => (
   <div>
     <h1>Recorded sessions</h1>
-    <button onClick={onLoadDebugSessions}>Load sessions</button>
+    <Button bsStyle="primary" onClick={onLoadDebugSessions}>Load sessions</Button>
+    <br /><br />
     {debugSessions.map(session =>
       (<div key={`div-${session.id}`}>
-          <h3 key={`h3-${session.id}`}>Session {session.id}</h3>
-          <p key={`p-${session.id}`}>Started at {session.startTimestamp} by {session.user}</p>
-          {session.actions.map(action =>
-            <h5 key={action.id} style={ {marginLeft: '20px'} }>
-              {action.type}
-              <button onClick={() => onDebugSession(session, action)}>Playback to this point</button>
-            </h5>
-          )}
+        <Panel bsStyle="info" header={`Session ${session.id} | Started at ${session.startTimestamp} by ${session.user}`}>
+          <ListGroup fill>
+            {session.actions.map(action =>
+              <ListGroupItem key={action.id}>
+                <h4>{action.type}</h4>
+                <pre>{action.json}</pre>
+                <Button bsStyle="success" bsSize="small" onClick={() => onDebugSession(session, action)}>Playback to this point</Button>
+              </ListGroupItem>
+            )}
+          </ListGroup>
+        </Panel>
+
       </div>)
     )}
   </div>

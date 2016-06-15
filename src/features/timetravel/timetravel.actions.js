@@ -37,7 +37,8 @@ export const debugSession = (session, untilAction) =>
 
      setTimeout(() => {
        console.log(' > Dispatching debug action:', action);
-       timetravelDispatcher(dispatch, action, isDebug);
+       action.isDebug = true;
+       timetravelDispatcher(dispatch, action);
      }, i * 500);
 
      if (untilAction && untilAction === action) {

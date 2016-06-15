@@ -16,6 +16,9 @@ let sessions = {};
 
 const LogAction = {
   log: (action) => {
+    if (action.isDebug) {
+      return;
+    }
     console.log('Log action:', action);
 
     if (sessions[sessionId] && sessions[sessionId].actions.length === 5) {
@@ -23,18 +26,19 @@ const LogAction = {
       user = people[getRandomIndex(people)];
     }
 
-    if (sessionId && !action.isDebug) {
-      if (!sessions[sessionId]) {
-        sessions[sessionId] = {
-          actions: [],
-          user,
-          startTimestamp: moment().format('DD.MM.YYYY HH:mm'),
-        };
-      }
-      action.id = guid();
-      action.timestamp = moment().format('DD.MM.YYYY HH:mm');
-      sessions[sessionId].actions.push(action);
+    if (!sessions[sessionId]) {
+      sessions[sessionId] = {
+        actions: [],
+        user,
+        startTimestamp: moment().format('DD.MM.YYYY HH:mm'),
+      };
     }
+    action.id = guid();
+    action.timestamp = moment().format('DD.MM.YYYY HH:mm');
+    const json = JSON.stringify(action, null, 2);
+    action.json = json;
+    console.log(action);
+    sessions[sessionId].actions.push(action);
   },
   getAll: () => {
     const s = [];
