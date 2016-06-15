@@ -1,5 +1,5 @@
 import createActionCreator from 'utils/createActionCreator.util';
-import { timetravelDispatcher } from './timetravelDispatcher';
+import timetravelDispatcher from './timetravelDispatcher';
 import LogAction from './logAction';
 
 export const ADD_TO_CART = 'ADD_TO_CART';
@@ -20,29 +20,33 @@ export const startDebugSession = createActionCreator(START_DEBUG_SESSION, 'isDeb
 export const stopDebugSession = createActionCreator(STOP_DEBUG_SESSION, 'isDebug');
 export const debugAction = createActionCreator(DEBUG_ACTION, 'action', 'isDebug');
 
-export const loadDebugSessions = () => {
+export const loadDebugSessions = () => (dispatch) => {
   const sessions = LogAction.getAll();
-  dispatch(receiveLoadDebugSessions(sessions, false));
+  timetravelDispatcher(dispatch, receiveLoadDebugSessions(sessions, true));
 };
 
-export const debugSession = (session, untilAction) => {
-  console.log('Debugging session:', session);
-  const isDebug = true;
-  dispatch(reset(isDebug));
-  dispatch(startDebugSession(isDebug));
+export const debugSession = (session, untilAction) =>
+  dispatch => new Promise((resolve, reject) => {
+    console.log('Debugging session:', session);
+    const isDebug = true;
+    timetravelDispatcher(dispatch, reset(isDebug));
+    timetravelDispatcher(dispatch, startDebugSession(isDebug));
 
-  for (let i = 0; i < session.actions.length; i++) {
-   const action = session.actions[i];
+    for (let i = 0; i < session.actions.length; i++) {
+     const action = session.actions[i];
 
-   setTimeout(() => {
-     console.log(' > Dispatching debug action:', action);
-     dispatch(...action, isDebug);
-   }, i * 250);
+     setTimeout(() => {
+       console.log(' > Dispatching debug action:', action);
+       timetravelDispatcher(dispatch, action, isDebug);
+     }, i * 500);
 
-   if (untilAction && untilAction === action) {
-     break;
-   }
-  }
+     if (untilAction && untilAction === action) {
+       resolve();
+       break;
+     }
+    }
 
-  dispatch(stopDebugSession(isDebug));
-};
+    timetravelDispatcher(dispatch, stopDebugSession(isDebug));
+
+    resolve();
+});

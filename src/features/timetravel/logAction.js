@@ -1,6 +1,16 @@
 import fetch from '../../utils/http.util';
+import guid from '../../utils/guid.util';
+import moment from 'moment';
 
-const sessionId = 1234;
+const getRandomIndex = (arr) => {
+  const min = 0;
+  const max = arr.length - 1;
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
+const people = ['bob', 'john', 'sarah', 'tim', 'anne', 'lucy'];
+let sessionId = guid();
+let user = people[getRandomIndex(people)];
 
 let sessions = {};
 
@@ -8,21 +18,40 @@ const LogAction = {
   log: (action) => {
     console.log('Log action:', action);
 
+    if (sessions[sessionId] && sessions[sessionId].actions.length === 5) {
+      sessionId = guid();
+      user = people[getRandomIndex(people)];
+    }
+
     if (sessionId && !action.isDebug) {
       if (!sessions[sessionId]) {
-        sessions[sessionId] = [];
+        sessions[sessionId] = {
+          actions: [],
+          user,
+          startTimestamp: moment().format('DD.MM.YYYY HH:mm'),
+        };
       }
-      sessions[sessionId].push(action);
+      action.id = guid();
+      action.timestamp = moment().format('DD.MM.YYYY HH:mm');
+      sessions[sessionId].actions.push(action);
     }
   },
+  getAll: () => {
+    const s = [];
 
-  get: (sessionId) => {
-    const actions = sessions[sessionId];
-    console.log('Returning actions for session ' + sessionId, actions);
-    return actions;
+    for(let prop in sessions) {
+      const sess = sessions[prop];
+      const session = {
+        id: prop.substring(0, 4),
+        user: sess.user,
+        startTimestamp: sess.startTimestamp,
+        actions: sess.actions,
+      };
+      s.push(session);
+    }
+
+    return s;
   },
-
-  getAll: () => sessions,
 };
 
 export default LogAction;

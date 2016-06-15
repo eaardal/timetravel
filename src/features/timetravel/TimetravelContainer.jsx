@@ -1,18 +1,30 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
 import TimetravelButton from './TimetravelButton';
-import { loadDebugSessions } from './timetravel.actions';
+import { loadDebugSessions, debugSession } from './timetravel.actions';
 import guid from '../../utils/guid.util';
 import timetravelDispatcher from './timetravelDispatcher';
+import forOwn from 'lodash/forOwn';
 
-const TimetravelContainer = ({ debugSessions, onLoadDebugSessions }) => (
+const TimetravelContainer = ({
+  debugSessions,
+  onLoadDebugSessions,
+  onDebugSession,
+}) => (
   <div>
-    <h1>Timetravel</h1>
+    <h1>Recorded sessions</h1>
     <button onClick={onLoadDebugSessions}>Load sessions</button>
     {debugSessions.map(session =>
-      session.actions.map(action =>
-        (<h3>action.type</h3>)
-      )
+      (<div key={`div-${session.id}`}>
+          <h3 key={`h3-${session.id}`}>Session {session.id}</h3>
+          <p key={`p-${session.id}`}>Started at {session.startTimestamp} by {session.user}</p>
+          {session.actions.map(action =>
+            <h5 key={action.id} style={ {marginLeft: '20px'} }>
+              {action.type}
+              <button onClick={() => onDebugSession(session, action)}>Playback to this point</button>
+            </h5>
+          )}
+      </div>)
     )}
   </div>
 );
@@ -27,6 +39,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => ({
   onLoadDebugSessions: () => dispatch(loadDebugSessions()),
+  onDebugSession: (session, untilAction) => dispatch(debugSession(session, untilAction)),
 });
 
 export default connect(
