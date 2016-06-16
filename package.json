@@ -11,6 +11,7 @@
     "test": "npm run karma",
     "start": "npm run eslint-configs&&cross-env NODE_ENV=localhost webpack-dev-server --inline --hot --config webpack.config.development.js --port 7777 --progress --colors --content-base wwwroot/",
     "start-utv": "npm run eslint-configs&&cross-env NODE_ENV=localhost webpack-dev-server --inline --hot --config webpack.config.development.spvutv.js --progress --colors --content-base wwwroot/",
+    "build-local": "npm run eslint&&cross-env NODE_ENV=localhost webpack --config webpack.config.development.js --colors",
     "build-utvikling": "cross-env NODE_ENV=utvikling webpack --config webpack.config.production.js --colors",
     "build-systemtest": "cross-env NODE_ENV=systemtest webpack --config webpack.config.production.js --colors",
     "build-environments": "npm run build-utvikling && npm run build-systemtest",

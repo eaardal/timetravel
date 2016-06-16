@@ -1,6 +1,5 @@
 import React, { PropTypes } from 'react';
 import { connect } from 'react-redux';
-import TimetravelButton from './TimetravelButton';
 import { loadDebugSessions, debugSession } from './timetravel.actions';
 import guid from '../../utils/guid.util';
 import timetravelDispatcher from './timetravelDispatcher';
